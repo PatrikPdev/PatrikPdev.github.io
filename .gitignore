@@ -1,0 +1,7 @@
+# pracovní soubory, na web nepatří
+obsah.md
+CURSOR_PROMPT.md
+.claude/
+.DS_Store
+*.env
+.env*
