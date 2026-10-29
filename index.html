@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WZRJfWvsnNCPcxzZwvyhovnZGqhZaC+8gPGPRbx6wTk='; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Patrik Poslušný – AI automatizace</title>
     <meta
       name="description"
@@ -15,18 +17,19 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://patrikpdev.github.io/" />
-    <meta property="og:image" content="https://patrikpdev.github.io/assets/foto.jpg" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://patrikpdev.github.io/assets/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Patrik Poslušný – AI automatizace · zákaznická komunikace" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://patrikpdev.github.io/" />
     <meta name="theme-color" content="#141414" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="fonts.css?v=1" />
+    <link rel="stylesheet" href="styles.css?v=9" />
     <script>document.documentElement.classList.add("js");</script>
   </head>
   <body>
@@ -55,6 +58,7 @@
             <li><a href="#o-mne">O mně</a></li>
             <li><a href="#projekty">Projekty</a></li>
             <li><a href="#zkusenosti">Zkušenosti</a></li>
+            <li><a href="#vzdelani">Vzdělání</a></li>
             <li><a href="#dovednosti">Dovednosti</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
           </ul>
@@ -72,7 +76,7 @@
 
     <main id="obsah" class="canvas">
       <section class="hero" aria-labelledby="hero-name">
-        <article class="node-panel hero-card">
+        <article class="node node-panel hero-card reveal" data-node="start" data-handles="out" data-dim>
           <header class="node-head">
             <span class="node-icon node-icon-ai" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -87,8 +91,8 @@
           <div class="hero-body">
             <img
               class="hero-photo"
-              src="assets/foto.jpg"
-              alt="Patrik Poslušný"
+              src="assets/foto-320.jpg"
+              alt="Fotografie Patrika Poslušného"
               width="160"
               height="160"
             />
@@ -99,15 +103,15 @@
                 Stavím automatizace s AI, které lidem šetří čas při rutinní práci. Zlín, otevřený práci na dálku i hybridně.
               </p>
               <div class="hero-actions">
-                <a class="btn btn-accent" href="#projekty">Moje projekty</a>
+                <a class="btn btn-accent" href="mailto:poslusny.pata@gmail.com">Napište mi</a>
+                <a class="btn btn-ghost" href="#projekty">Moje projekty</a>
                 <a class="btn btn-ghost" href="https://github.com/PatrikPdev" rel="noopener noreferrer">GitHub</a>
-                <a class="btn btn-ghost" href="mailto:poslusny.pata@gmail.com">Napište mi</a>
               </div>
             </div>
           </div>
         </article>
 
-        <article class="node-panel demo-panel" aria-labelledby="demo-heading">
+        <article class="node-panel demo-panel reveal" aria-labelledby="demo-heading" data-dim>
           <header class="node-head">
             <span class="node-icon node-icon-gear" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -128,11 +132,19 @@
                 role="group"
                 aria-label="Schéma workflow: Nový e-mail, AI analýza, a z ní Tabulka, Koncept odpovědi a Upozornění"
               >
+                <defs>
+                  <marker id="wf-arrow" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+                    <path d="M0 0L8 4L0 8z" class="wf-arrow" />
+                  </marker>
+                  <marker id="wf-arrow-done" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
+                    <path d="M0 0L8 4L0 8z" class="wf-arrow-done" />
+                  </marker>
+                </defs>
                 <g class="wf-edges" aria-hidden="true">
-                  <path id="wf-e1" class="wf-edge" d="M88 137 H162" />
-                  <path id="wf-e2" class="wf-edge" d="M218 137 C268 137 268 45 318 45" />
-                  <path id="wf-e3" class="wf-edge" d="M218 137 H318" />
-                  <path id="wf-e4" class="wf-edge" d="M218 137 C268 137 268 229 318 229" />
+                  <path id="wf-e1" class="wf-edge" d="M92 137 H158" />
+                  <path id="wf-e2" class="wf-edge" d="M222 137 C268 137 268 45 314 45" />
+                  <path id="wf-e3" class="wf-edge" d="M222 137 H314" />
+                  <path id="wf-e4" class="wf-edge" d="M222 137 C268 137 268 229 314 229" />
                 </g>
                 <g class="wf-chips" aria-hidden="true"></g>
 
@@ -264,16 +276,8 @@
         </article>
       </section>
 
-      <div class="flow-connector" aria-hidden="true">
-        <span class="port"></span>
-        <span class="flow-line"></span>
-        <span class="item-chip">1 item</span>
-        <span class="flow-line"></span>
-        <span class="port"></span>
-      </div>
-
-      <section id="o-mne" class="section">
-        <article class="node-panel">
+      <section id="o-mne" class="section" aria-labelledby="o-mne-heading">
+        <article class="node node-panel reveal" data-node="o-mne" data-dim>
           <header class="node-head">
             <span class="node-icon node-icon-ai" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -281,45 +285,24 @@
                 <path d="M19 14c.6 1.2 1.2 1.8 2.4 2.4C20.2 17 19.6 17.6 19 19c-.6-1.2-1.2-1.8-2.4-2.4C17.8 15.8 18.4 15.2 19 14z" />
               </svg>
             </span>
-            <h2 class="node-title">O mně</h2>
-            <p class="node-type">O mně · trigger</p>
+            <h2 id="o-mne-heading" class="node-title">O mně</h2>
+            <p class="node-type">O mně · set</p>
           </header>
           <div class="node-body prose">
             <p>
               Maturoval jsem z elektrotechniky na SPŠ Zlín (2026). V klientském kontaktním centru Komerční banky denně komunikuji s klienty po telefonu, takže dobře vím, co zákazníci potřebují a kolik času zabere rutina.
             </p>
             <p>
-              Ve volném čase stavím projekty s AI: od automatizace zákaznických e-mailů přes CRM pro realitní makléře v Notionu, které prodávám na Etsy, až po vlastního trading bota. Baví mě věci dotáhnout do funkčního stavu, otestovat je a umět vysvětlit, jak fungují.
+              Ve volném čase stavím projekty s AI: od automatizace zákaznických e-mailů přes CRM pro realitní makléře v Notionu, které prodávám na Etsy, až po vlastního trading bota. Baví mě věci dotáhnout do funkčního stavu a otestovat je.
             </p>
           </div>
         </article>
       </section>
 
-      <div class="flow-connector" aria-hidden="true">
-        <span class="port"></span>
-        <span class="flow-line"></span>
-        <span class="item-chip">1 item</span>
-        <span class="flow-line"></span>
-        <span class="port"></span>
-      </div>
-
       <section id="projekty" class="section projects-section" aria-labelledby="projekty-heading">
-        <header class="section-kicker">
-          <h2 id="projekty-heading" class="visually-hidden">Projekty</h2>
-          <p class="node-type projects-type">Projekty · 3 items</p>
-        </header>
-
-        <div class="branch" aria-hidden="true">
-          <svg class="branch-svg" viewBox="0 0 100 56" preserveAspectRatio="none">
-            <path d="M50 0 V14" />
-            <path d="M50 14 C50 30 16.7 30 16.7 56" />
-            <path d="M50 14 V56" />
-            <path d="M50 14 C50 30 83.3 30 83.3 56" />
-          </svg>
-        </div>
-
+        <h2 id="projekty-heading" class="branch-title node" data-node="fork" data-nostatus>Projekty <span class="branch-count">3 items</span></h2>
         <div class="project-grid">
-          <article class="node-panel project-node">
+          <article class="node node-panel project-node reveal" data-node="p-email" data-ndv="p-email" data-dim>
             <header class="node-head">
               <span class="node-icon node-icon-mail" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -330,7 +313,8 @@
               <h3 class="node-title">AI asistent na zákaznické e-maily</h3>
             </header>
             <div class="node-body">
-              <ul class="pills">
+              <p class="state-pill state-pill-success">Funkční · otestováno</p>
+              <ul class="pills" aria-label="Nástroje">
                 <li>n8n</li>
                 <li>Claude API</li>
                 <li>Gmail</li>
@@ -340,11 +324,11 @@
               <p>
                 Automatizace pro e-shop, který prodává po celé Evropě a dostává e-maily v mnoha jazycích. AI každý e-mail zařadí (jazyk, kategorie, číslo objednávky, nálada, urgentnost), zapíše ho do přehledové tabulky, připraví koncept odpovědi v jazyce zákazníka a u urgentních reklamací pošle upozornění do Slacku.
               </p>
-              <button class="btn btn-accent btn-sm" type="button" data-open-project="email">Otevřít</button>
+              <button class="btn btn-accent btn-sm" type="button" data-ndv-open="p-email" aria-haspopup="dialog">Otevřít</button>
             </div>
           </article>
 
-          <article class="node-panel project-node">
+          <article class="node node-panel project-node reveal" data-node="p-deskdeed" data-ndv="p-deskdeed" data-dim>
             <header class="node-head">
               <span class="node-icon node-icon-table" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -356,7 +340,7 @@
             </header>
             <div class="node-body">
               <p class="state-pill state-pill-success">V prodeji · 5★ recenze</p>
-              <ul class="pills">
+              <ul class="pills" aria-label="Nástroje">
                 <li>Notion</li>
                 <li>Claude</li>
                 <li>ElevenLabs</li>
@@ -366,25 +350,24 @@
               <p>
                 Sólo projekt, ve kterém jsem s pomocí AI nástrojů navrhl, postavil a uvedl na trh kompletní digitální produkt: od systému v Notionu přes branding a video až po e-shop a marketing. Produkt je živý na Etsy, má první prodej a 5★ recenzi.
               </p>
-              <button class="btn btn-accent btn-sm" type="button" data-open-project="deskdeed">Otevřít</button>
+              <button class="btn btn-accent btn-sm" type="button" data-ndv-open="p-deskdeed" aria-haspopup="dialog">Otevřít</button>
             </div>
           </article>
 
-          <article class="node-panel project-node">
+          <article class="node node-panel project-node reveal" data-node="p-bot" data-ndv="p-bot" data-dim>
             <header class="node-head">
               <span class="node-icon node-icon-gear" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <circle cx="12" cy="12" r="3" />
-                  <path
-                    d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9c.3.6.9 1 1.5 1.1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"
-                  />
+                  <path d="M4 19h16" />
+                  <path d="M6 15l4-5 3 3 5-7" />
+                  <circle cx="18" cy="6" r="1.4" />
                 </svg>
               </span>
               <h3 class="node-title">Solana trading bot: výzkum a automatizace s AI agentem</h3>
             </header>
             <div class="node-body">
               <p class="state-pill state-pill-warn">Ve vývoji</p>
-              <ul class="pills">
+              <ul class="pills" aria-label="Nástroje">
                 <li>Claude Code</li>
                 <li>TypeScript/Node.js</li>
                 <li>SQLite</li>
@@ -392,173 +375,293 @@
                 <li>DigitalOcean</li>
               </ul>
               <p>
-                Systém, který sbírá živá data z blockchainu, analyzuje je a testuje obchodní strategie na realistických nákladech. Teď běží nepřetržitě na cloudovém serveru a nejlepší strategii testuje v ostrém provozu s virtuálními penězi. Nejsem programátor: kód psal AI agent Claude Code, já projekt vedl, určoval cíle a pravidla, kontroloval výstupy, testoval a nasazoval.
+                Systém, který sbírá živá data z blockchainu, analyzuje je a testuje obchodní strategie na realistických nákladech. Teď běží nepřetržitě na cloudovém serveru a nejlepší strategii testuje v ostrém provozu s virtuálními penězi. Kód generoval AI agent Claude Code; já jsem projekt vedl, určoval cíle a pravidla, kontroloval výstupy, testoval a nasazoval.
               </p>
-              <button class="btn btn-accent btn-sm" type="button" data-open-project="bot">Otevřít</button>
+              <button class="btn btn-accent btn-sm" type="button" data-ndv-open="p-bot" aria-haspopup="dialog">Otevřít</button>
             </div>
           </article>
         </div>
       </section>
 
-      <div class="flow-connector" aria-hidden="true">
-        <span class="port"></span>
-        <span class="flow-line"></span>
-        <span class="item-chip">1 item</span>
-        <span class="flow-line"></span>
-        <span class="port"></span>
-      </div>
-
-      <section id="zkusenosti" class="section">
-        <article class="node-panel">
-          <header class="node-head">
+      <section id="zkusenosti" class="section" aria-labelledby="zk-heading">
+        <article class="node node-panel group-panel reveal" data-node="g-zkusenosti">
+          <header class="node-head" data-dim>
             <span class="node-icon node-icon-success" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="9" />
-                <path d="M8 12.5l2.5 2.5L16 9.5" />
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="7" width="18" height="13" rx="2" />
+                <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" />
               </svg>
             </span>
-            <h2 class="node-title">Zkušenosti a vzdělání</h2>
-            <p class="node-type">Zkušenosti · executions</p>
+            <h2 id="zk-heading" class="node-title">Zkušenosti</h2>
+            <p class="node-type">Zkušenosti · 2 items</p>
           </header>
-          <div class="node-body executions">
-            <details>
-              <summary>
-                <span class="exec-check" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" width="14" height="14">
-                    <circle cx="8" cy="8" r="8" fill="#22c55e" />
-                    <path d="M4.5 8.2l2.2 2.2 4.8-5" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </span>
-                <span class="exec-status">Succeeded</span>
-                <span class="exec-title">Pracovník klientského kontaktního centra</span>
-                <span class="exec-meta">Komerční banka</span>
-                <span class="exec-period">07/2026 – současnost</span>
-              </summary>
-              <ul>
-                <li>Telefonicky oslovuji klienty kvůli převodu na nové internetové bankovnictví, až 100 hovorů denně.</li>
-                <li>Převod s klientem dokončím přímo po telefonu, nebo mu domluvím schůzku s bankéřem.</li>
-                <li>Komunikuji se soukromými klienty, podnikateli i firmami a pracuji v interních systémech banky.</li>
-              </ul>
-            </details>
-
-            <details>
-              <summary>
-                <span class="exec-check" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" width="14" height="14">
-                    <circle cx="8" cy="8" r="8" fill="#22c55e" />
-                    <path d="M4.5 8.2l2.2 2.2 4.8-5" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </span>
-                <span class="exec-status">Succeeded</span>
-                <span class="exec-title">Pracovník obsluhy</span>
-                <span class="exec-meta">McDonald’s</span>
-                <span class="exec-period">03/2024 – 06/2025</span>
-              </summary>
-              <ul>
-                <li>Obsluha velkého množství zákazníků v rychlém provozu, i ve špičkách.</li>
-                <li>Práci jsem přes rok skloubil se studiem.</li>
-              </ul>
-            </details>
-
-            <div class="exec-row">
-              <span class="exec-check" aria-hidden="true">
-                <svg viewBox="0 0 16 16" width="14" height="14">
-                  <circle cx="8" cy="8" r="8" fill="#22c55e" />
-                  <path d="M4.5 8.2l2.2 2.2 4.8-5" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </span>
-              <span class="exec-status">Succeeded</span>
-              <span class="exec-title">Elektrotechnika (maturitní obor)</span>
-              <span class="exec-meta">Střední průmyslová škola Zlín</span>
-              <span class="exec-period">2022 – 2026</span>
-            </div>
+          <div class="node-body">
+            <ol class="timeline" aria-label="Zkušenosti v časovém pořadí">
+              <li class="tl-item reveal" data-ndv="job-mcd" data-dim>
+                <div class="node tl-node" data-node="job-mcd">
+                  <button class="tl-head" type="button" aria-expanded="false" aria-controls="tl-more-job-mcd">
+                    <span class="tl-logo" aria-hidden="true">
+                      <svg viewBox="0 0 48 48" width="48" height="48">
+                        <defs>
+                          <linearGradient id="lg-mcd" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#fb923c" />
+                            <stop offset="1" stop-color="#dc2626" />
+                          </linearGradient>
+                        </defs>
+                        <rect width="48" height="48" rx="13" fill="url(#lg-mcd)" />
+                        <path d="M11.5 22.5a12.5 9 0 0 1 25 0z" fill="#fde68a" />
+                        <circle cx="19" cy="17.5" r="1" fill="#f59e0b" />
+                        <circle cx="24" cy="15.5" r="1" fill="#f59e0b" />
+                        <circle cx="29" cy="17.5" r="1" fill="#f59e0b" />
+                        <path d="M11 25.2c2 1.6 3.7 1.6 5.4 0s3.7-1.6 5.4 0 3.7 1.6 5.4 0 3.7-1.6 5.4 0 3 1.4 4.4.4" fill="none" stroke="#4ade80" stroke-width="2.6" stroke-linecap="round" />
+                        <rect x="11" y="27.5" width="26" height="5" rx="2.5" fill="#7c2d12" />
+                        <rect x="12" y="33.5" width="24" height="5" rx="2.5" fill="#fde68a" />
+                      </svg>
+                    </span>
+                    <span class="tl-text">
+                      <span class="tl-name">McDonald’s</span>
+                      <span class="tl-role">Pracovník obsluhy</span>
+                      <span class="tl-date">03/2024 – 06/2025</span>
+                    </span>
+                    <svg class="tl-chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4.5 6.5L8 10l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <div class="tl-more" id="tl-more-job-mcd" inert><div class="tl-more-inner" data-fill="job-mcd"></div></div>
+                </div>
+              </li>
+              <li class="tl-item reveal" data-ndv="job-kb" data-dim>
+                <div class="node tl-node" data-node="job-kb">
+                  <button class="tl-head" type="button" aria-expanded="false" aria-controls="tl-more-job-kb">
+                    <span class="tl-logo" aria-hidden="true">
+                      <svg viewBox="0 0 48 48" width="48" height="48">
+                        <defs>
+                          <linearGradient id="lg-kb" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#6366f1" />
+                            <stop offset="1" stop-color="#1e3a8a" />
+                          </linearGradient>
+                        </defs>
+                        <rect width="48" height="48" rx="13" fill="url(#lg-kb)" />
+                        <path d="M10 18.5L22 11l12 7.5z" fill="#e0e7ff" />
+                        <rect x="12.5" y="20.5" width="3.6" height="10" rx="1" fill="#c7d2fe" />
+                        <rect x="20.2" y="20.5" width="3.6" height="10" rx="1" fill="#c7d2fe" />
+                        <rect x="27.9" y="20.5" width="3.6" height="10" rx="1" fill="#c7d2fe" />
+                        <rect x="10" y="32" width="24" height="3.2" rx="1.2" fill="#e0e7ff" />
+                        <circle cx="35.5" cy="34.5" r="8.5" fill="#22c55e" />
+                        <path d="M31.5 35v-1a4 4 0 0 1 8 0v1" fill="none" stroke="#052e16" stroke-width="1.8" stroke-linecap="round" />
+                        <rect x="30.6" y="34.4" width="2.4" height="3.6" rx="1" fill="#052e16" />
+                        <rect x="38" y="34.4" width="2.4" height="3.6" rx="1" fill="#052e16" />
+                      </svg>
+                    </span>
+                    <span class="tl-text">
+                      <span class="tl-name">Komerční banka</span>
+                      <span class="tl-role">Pracovník klientského kontaktního centra</span>
+                      <span class="tl-date">07/2026 – současnost</span>
+                    </span>
+                    <svg class="tl-chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4.5 6.5L8 10l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <div class="tl-more" id="tl-more-job-kb" inert><div class="tl-more-inner" data-fill="job-kb"></div></div>
+                </div>
+              </li>
+            </ol>
           </div>
         </article>
       </section>
 
-      <div class="flow-connector" aria-hidden="true">
-        <span class="port"></span>
-        <span class="flow-line"></span>
-        <span class="item-chip">1 item</span>
-        <span class="flow-line"></span>
-        <span class="port"></span>
-      </div>
+      <section id="vzdelani" class="section" aria-labelledby="vz-heading">
+        <article class="node node-panel group-panel reveal" data-node="g-vzdelani">
+          <header class="node-head" data-dim>
+            <span class="node-icon node-icon-ai" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M2 9l10-5 10 5-10 5L2 9z" />
+                <path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5" />
+              </svg>
+            </span>
+            <h2 id="vz-heading" class="node-title">Vzdělání</h2>
+            <p class="node-type">Vzdělání · 3 items</p>
+          </header>
+          <div class="node-body">
+            <ol class="timeline" aria-label="Vzdělání a jazyky">
+              <li class="tl-item reveal" data-ndv="school" data-dim>
+                <div class="node tl-node" data-node="school">
+                  <button class="tl-head" type="button" aria-expanded="false" aria-controls="tl-more-school">
+                    <span class="tl-logo" aria-hidden="true">
+                      <svg viewBox="0 0 48 48" width="48" height="48">
+                        <defs>
+                          <linearGradient id="lg-school" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#2dd4bf" />
+                            <stop offset="1" stop-color="#0e7490" />
+                          </linearGradient>
+                        </defs>
+                        <rect width="48" height="48" rx="13" fill="url(#lg-school)" />
+                        <path d="M8 20l15-7.5L38 20l-15 7.5z" fill="#f0fdfa" />
+                        <path d="M14.5 23.5v6.5c0 2.2 3.8 4.5 8.5 4.5s8.5-2.3 8.5-4.5v-6.5L23 27.5z" fill="#99f6e4" />
+                        <path d="M36 20.5v7" stroke="#f0fdfa" stroke-width="1.8" stroke-linecap="round" />
+                        <path d="M38.5 28l-4 6.5h3.2l-1.7 5.5 5.2-7.4h-3.2l1.9-4.6z" fill="#fde047" />
+                      </svg>
+                    </span>
+                    <span class="tl-text">
+                      <span class="tl-name">Střední průmyslová škola Zlín</span>
+                      <span class="tl-role">Elektrotechnika (maturitní obor)</span>
+                      <span class="tl-date">2022 – 2026</span>
+                    </span>
+                    <svg class="tl-chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4.5 6.5L8 10l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <div class="tl-more" id="tl-more-school" inert><div class="tl-more-inner" data-fill="school"></div></div>
+                </div>
+              </li>
+              <li class="tl-item reveal" data-ndv="lang-cs" data-dim>
+                <div class="node tl-node" data-node="lang-cs">
+                  <button class="tl-head" type="button" aria-expanded="false" aria-controls="tl-more-lang-cs">
+                    <span class="tl-logo" aria-hidden="true">
+                      <svg viewBox="0 0 48 48" width="48" height="48">
+                        <defs>
+                          <linearGradient id="lg-cs" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#475569" />
+                            <stop offset="1" stop-color="#1e293b" />
+                          </linearGradient>
+                        </defs>
+                        <rect width="48" height="48" rx="13" fill="url(#lg-cs)" />
+                        <path d="M10 12h24a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H20l-6 5v-5h-4a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z" fill="#f8fafc" />
+                        <text x="22" y="26.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#1e293b">CS</text>
+                        <rect x="27" y="29" width="15" height="10" rx="1.5" fill="#ffffff" />
+                        <path d="M27 34h15v3.5a1.5 1.5 0 0 1-1.5 1.5h-12a1.5 1.5 0 0 1-1.5-1.5z" fill="#d7141a" />
+                        <path d="M27 30.5a1.5 1.5 0 0 1 1.5-1.5l6 5-6 5a1.5 1.5 0 0 1-1.5-1.5z" fill="#11457e" />
+                      </svg>
+                    </span>
+                    <span class="tl-text">
+                      <span class="tl-name">Čeština</span>
+                      <span class="tl-role">rodilý mluvčí</span>
+                    </span>
+                    <svg class="tl-chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4.5 6.5L8 10l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <div class="tl-more" id="tl-more-lang-cs" inert><div class="tl-more-inner" data-fill="lang-cs"></div></div>
+                </div>
+              </li>
+              <li class="tl-item reveal" data-ndv="lang-en" data-dim>
+                <div class="node tl-node" data-node="lang-en">
+                  <button class="tl-head" type="button" aria-expanded="false" aria-controls="tl-more-lang-en">
+                    <span class="tl-logo" aria-hidden="true">
+                      <svg viewBox="0 0 48 48" width="48" height="48">
+                        <defs>
+                          <linearGradient id="lg-en" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#3b82f6" />
+                            <stop offset="1" stop-color="#4338ca" />
+                          </linearGradient>
+                        </defs>
+                        <rect width="48" height="48" rx="13" fill="url(#lg-en)" />
+                        <path d="M10 12h24a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H20l-6 5v-5h-4a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z" fill="#eff6ff" />
+                        <text x="22" y="26.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#1e3a8a">EN</text>
+                        <circle cx="36" cy="35" r="8" fill="#fbbf24" />
+                        <text x="36" y="38.3" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="700" fill="#422006">B2</text>
+                      </svg>
+                    </span>
+                    <span class="tl-text">
+                      <span class="tl-name">Angličtina</span>
+                      <span class="tl-role">B2 (certifikát Cambridge FCE)</span>
+                    </span>
+                    <svg class="tl-chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M4.5 6.5L8 10l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <div class="tl-more" id="tl-more-lang-en" inert><div class="tl-more-inner" data-fill="lang-en"></div></div>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </article>
+      </section>
 
-      <section id="dovednosti" class="section">
-        <article class="node-panel">
+      <section id="dovednosti" class="section" aria-labelledby="dov-heading">
+        <article class="node node-panel group-panel skills-panel reveal" data-node="dovednosti">
           <header class="node-head">
             <span class="node-icon node-icon-ai" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M12 3l1.2 3.6L17 8l-3.8 1.4L12 13l-1.2-3.6L7 8l3.8-1.4L12 3z" />
-                <circle cx="6" cy="17" r="1.4" />
-                <circle cx="18" cy="16" r="1" />
+                <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                <path d="M17.5 14v7M14 17.5h7" />
               </svg>
             </span>
-            <h2 class="node-title">Dovednosti</h2>
-            <p class="node-type">Dovednosti · items</p>
+            <h2 id="dov-heading" class="node-title">Dovednosti</h2>
+            <div class="skills-view" role="group" aria-label="Zobrazení dovedností">
+              <button type="button" class="skills-view-btn" data-view="list" aria-pressed="true">Seznam</button>
+              <button type="button" class="skills-view-btn" data-view="json" aria-pressed="false">JSON</button>
+            </div>
+            <p class="node-type">3 groups · 18 items</p>
           </header>
-          <div class="node-body skills">
-            <div class="skill-group">
-              <h3>Automatizace a AI</h3>
-              <ul class="pills">
-                <li>n8n</li>
-                <li>Claude API</li>
-                <li>Claude Code (řízení AI agenta)</li>
-                <li>psaní promptů</li>
-                <li>strukturovaný výstup (JSON)</li>
-                <li>Cursor</li>
-              </ul>
-            </div>
-            <div class="skill-group">
-              <h3>Technické</h3>
-              <ul class="pills">
-                <li>REST API</li>
-                <li>JSON</li>
-                <li>OAuth a API klíče</li>
-                <li>Git a GitHub (SSH)</li>
-                <li>cloudový server (DigitalOcean)</li>
-                <li>Google Sheets</li>
-                <li>Slack</li>
-                <li>Notion</li>
-              </ul>
-            </div>
-            <div class="skill-group">
-              <h3>Komunikace</h3>
-              <ul class="pills">
-                <li>telefonická komunikace</li>
-                <li>řešení požadavků zákazníků</li>
-                <li>srozumitelné vysvětlování</li>
-                <li>týmová spolupráce</li>
-              </ul>
-            </div>
-            <div class="skill-group">
-              <h3>Jazyky</h3>
-              <ul class="pills">
-                <li>čeština (rodilý mluvčí)</li>
-                <li>angličtina B2 (certifikát Cambridge FCE)</li>
-              </ul>
+          <div class="node-body">
+            <div class="skill-cats">
+              <section class="skill-cat reveal" data-cat="ai" aria-labelledby="sc-ai">
+                <header class="skill-cat-head">
+                  <span class="skill-cat-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+                      <path d="M12 3l1.2 3.6L17 8l-3.8 1.4L12 13l-1.2-3.6L7 8l3.8-1.4L12 3z" />
+                      <path d="M18 14l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z" />
+                    </svg>
+                  </span>
+                  <h3 id="sc-ai">Automatizace a AI</h3>
+                  <span class="skill-cat-count">6 items</span>
+                </header>
+                <ul class="skill-rows">
+                  <li>n8n</li>
+                  <li>Claude API</li>
+                  <li>Claude Code (řízení AI agenta)</li>
+                  <li>psaní promptů</li>
+                  <li>strukturovaný výstup (JSON)</li>
+                  <li>Cursor</li>
+                </ul>
+              </section>
+
+              <section class="skill-cat reveal" data-cat="tech" aria-labelledby="sc-tech">
+                <header class="skill-cat-head">
+                  <span class="skill-cat-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14" />
+                    </svg>
+                  </span>
+                  <h3 id="sc-tech">Technické</h3>
+                  <span class="skill-cat-count">8 items</span>
+                </header>
+                <ul class="skill-rows">
+                  <li>REST API</li>
+                  <li>JSON</li>
+                  <li>OAuth a API klíče</li>
+                  <li>Git a GitHub (SSH)</li>
+                  <li>cloudový server (DigitalOcean)</li>
+                  <li>Google Sheets</li>
+                  <li>Slack</li>
+                  <li>Notion</li>
+                </ul>
+              </section>
+
+              <section class="skill-cat reveal" data-cat="com" aria-labelledby="sc-com">
+                <header class="skill-cat-head">
+                  <span class="skill-cat-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+                      <path d="M5 16.5A7.5 7.5 0 1 1 12.5 20H7l-2 2.5V16.5z" />
+                    </svg>
+                  </span>
+                  <h3 id="sc-com">Komunikace</h3>
+                  <span class="skill-cat-count">4 items</span>
+                </header>
+                <ul class="skill-rows">
+                  <li>telefonická komunikace</li>
+                  <li>řešení požadavků zákazníků</li>
+                  <li>srozumitelné vysvětlování</li>
+                  <li>týmová spolupráce</li>
+                </ul>
+              </section>
             </div>
           </div>
         </article>
       </section>
 
-      <div class="flow-connector" aria-hidden="true">
-        <span class="port"></span>
-        <span class="flow-line"></span>
-        <span class="item-chip">1 item</span>
-        <span class="flow-line"></span>
-        <span class="port"></span>
-      </div>
-
-      <section id="kontakt" class="section">
-        <article class="node-panel contact-panel">
+      <section id="kontakt" class="section" aria-labelledby="kontakt-heading">
+        <article class="node node-panel contact-panel reveal" data-node="kontakt" data-handles="in" data-dim>
           <header class="node-head">
             <span class="node-icon node-icon-chat" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
                 <path d="M5 16.5A7.5 7.5 0 1 1 12.5 20H7l-2 2.5V16.5z" />
               </svg>
             </span>
-            <h2 class="node-title">Kontakt</h2>
+            <h2 id="kontakt-heading" class="node-title">Kontakt</h2>
             <p class="node-type">Kontakt · send message</p>
           </header>
           <div class="node-body contact-body">
@@ -574,9 +677,8 @@
               </li>
               <li>
                 <span class="contact-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M9 8h.01M9 12h6M9 16h4" />
+                  <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
                   </svg>
                 </span>
                 <a href="https://github.com/PatrikPdev" rel="noopener noreferrer">https://github.com/PatrikPdev</a>
@@ -592,102 +694,54 @@
               </li>
             </ul>
             <p class="contact-note">Životopis v PDF rád pošlu e-mailem.</p>
+            <a class="btn btn-accent contact-cta" href="mailto:poslusny.pata@gmail.com">Napište mi</a>
           </div>
         </article>
       </section>
     </main>
 
-    <dialog id="project-drawer" class="drawer" aria-labelledby="drawer-title">
-      <div class="drawer-inner">
-        <header class="drawer-head">
-          <h2 id="drawer-title"></h2>
-          <button class="drawer-close" type="button" data-close-drawer>
-            <span aria-hidden="true">×</span>
-            <span class="visually-hidden">Zavřít</span>
-          </button>
+    <footer class="site-footer" id="paticka">
+      <p>Design inspirovaný workflow editorem n8n. · <a href="soukromi.html">Ochrana soukromí</a></p>
+    </footer>
+
+    <dialog id="ndv" class="ndv" aria-labelledby="ndv-title" aria-modal="true">
+      <div class="ndv-inner">
+        <header class="ndv-head">
+          <span class="ndv-icon" aria-hidden="true"></span>
+          <div class="ndv-heading">
+            <h2 id="ndv-title"></h2>
+            <p class="ndv-kind"></p>
+          </div>
+          <button class="ndv-close" type="button" aria-label="Zavřít detail">×</button>
         </header>
-        <div class="drawer-tabs" role="tablist" aria-label="Detail projektu">
-          <button class="tab-btn is-active" type="button" role="tab" aria-selected="true" data-tab="popis" id="tab-popis">
-            Popis
-          </button>
-          <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="vystup" id="tab-vystup">
-            Výstup
-          </button>
+        <div class="ndv-body">
+          <section class="ndv-col ndv-input" aria-labelledby="ndv-in-h">
+            <h3 class="ndv-col-title" id="ndv-in-h">Input</h3>
+            <dl class="ndv-kv"></dl>
+          </section>
+          <section class="ndv-col ndv-params" aria-labelledby="ndv-par-h">
+            <h3 class="ndv-col-title" id="ndv-par-h">Parametry</h3>
+            <div class="ndv-params-body"></div>
+          </section>
+          <section class="ndv-col ndv-output" aria-labelledby="ndv-out-h">
+            <div class="ndv-out-head">
+              <h3 class="ndv-col-title" id="ndv-out-h">Output</h3>
+              <div class="ndv-views" role="tablist" aria-label="Zobrazení výstupu">
+                <button type="button" role="tab" class="ndv-view-btn" data-view="table" aria-selected="true" aria-controls="ndv-view">Table</button>
+                <button type="button" role="tab" class="ndv-view-btn" data-view="json" aria-selected="false" aria-controls="ndv-view" tabindex="-1">JSON</button>
+                <button type="button" role="tab" class="ndv-view-btn" data-view="schema" aria-selected="false" aria-controls="ndv-view" tabindex="-1">Schema</button>
+              </div>
+            </div>
+            <div class="ndv-view" id="ndv-view" role="tabpanel" tabindex="0"></div>
+            <div class="ndv-extra"></div>
+          </section>
         </div>
-        <div class="drawer-panels">
-          <div class="tab-panel is-active" id="panel-popis" role="tabpanel" aria-labelledby="tab-popis"></div>
-          <div class="tab-panel" id="panel-vystup" role="tabpanel" aria-labelledby="tab-vystup" hidden></div>
-        </div>
+        <footer class="ndv-foot" hidden></footer>
       </div>
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <template id="tpl-email-popis">
-      <p>
-        Automatizace pro e-shop, který prodává po celé Evropě a dostává e-maily v mnoha jazycích. AI každý e-mail zařadí (jazyk, kategorie, číslo objednávky, nálada, urgentnost), zapíše ho do přehledové tabulky, připraví koncept odpovědi v jazyce zákazníka a u urgentních reklamací pošle upozornění do Slacku.
-      </p>
-      <ul>
-        <li>Otestováno na 10 e-mailech v 6 jazycích (cs, sk, de, hu, en, ro)</li>
-        <li>Odpověď vždy kontroluje a odesílá člověk (human in the loop)</li>
-        <li>Filtr spamu a automatické upozornění, když workflow spadne</li>
-        <li>API klíče jen v trezoru n8n, Slack bot má jediné oprávnění (psát zprávy)</li>
-      </ul>
-      <p>
-        <a class="btn btn-ghost btn-sm" href="https://github.com/PatrikPdev/ai-email-asistent" rel="noopener noreferrer">Zobrazit na GitHubu</a>
-      </p>
-    </template>
-    <template id="tpl-email-vystup">
-      <figure>
-        <img
-          src="assets/ai-email-asistent.webp"
-          alt="Schéma workflow AI asistenta na zákaznické e-maily"
-          width="1200"
-          height="800"
-          loading="lazy"
-        />
-      </figure>
-    </template>
-
-    <template id="tpl-deskdeed-popis">
-      <p>
-        Sólo projekt, ve kterém jsem s pomocí AI nástrojů navrhl, postavil a uvedl na trh kompletní digitální produkt: od systému v Notionu přes branding a video až po e-shop a marketing. Produkt je živý na Etsy, má první prodej a 5★ recenzi.
-      </p>
-      <ul>
-        <li>13 propojených stránek, 8 databází, 12 živých vzorců a 30+ pohledů, včetně automatického výpočtu provizí</li>
-        <li>Claude: návrh databází a vzorců, texty prodejního listingu, výzkum klíčových slov a strategie spuštění</li>
-        <li>ElevenLabs: AI hlas pro prodejní a návodné video; AI grafika a Canva: logo a 10 marketingových náhledů</li>
-        <li>Notion, Canva, CapCut, ElevenLabs, Etsy a Gumroad propojené do jednoho postupu od produktu po prodej</li>
-      </ul>
-    </template>
-    <template id="tpl-deskdeed-vystup">
-      <p>
-        <a
-          class="btn btn-accent"
-          href="https://www.etsy.com/listing/4531801892/real-estate-agent-notion-templatecrm"
-          rel="noopener noreferrer"
-          >Zobrazit na Etsy</a
-        >
-      </p>
-    </template>
-
-    <template id="tpl-bot-popis">
-      <p>
-        Systém, který sbírá živá data z blockchainu, analyzuje je a testuje obchodní strategie na realistických nákladech. Teď běží nepřetržitě na cloudovém serveru a nejlepší strategii testuje v ostrém provozu s virtuálními penězi. Nejsem programátor: kód psal AI agent Claude Code, já projekt vedl, určoval cíle a pravidla, kontroloval výstupy, testoval a nasazoval.
-      </p>
-      <ul>
-        <li>Sběrač dat se sám obnovuje po výpadku a hlídá si rozpočet za placené API, nasbíral přes 30 milionů obchodů</li>
-        <li>Otestováno 8 typů strategií, pravidla testů vždy zapsaná předem, aby výsledky nešlo přikrášlit</li>
-        <li>Přes 100 automatických testů, mimo jiné ověření, že živý systém rozhoduje stejně jako simulace</li>
-        <li>Vlastní zabezpečený server běžící 24/7, API klíče a SSH pod kontrolou, nic tajného ve veřejném kódu</li>
-      </ul>
-    </template>
-    <template id="tpl-bot-vystup">
-      <p class="output-highlight">
-        Data ukázala, že většina „rychlých zisků“ na memecoinech je pro běžného obchodníka ztrátová. Rozhodnutí podle dat mě ochránilo před ztrátou skutečných peněz.
-      </p>
-    </template>
-
-    <script src="script.js"></script>
+    <script src="script.js?v=8"></script>
   </body>
 </html>

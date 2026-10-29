@@ -1,0 +1,4 @@
+Písma v této složce jsou šířená pod licencí SIL Open Font License 1.1:
+- Inter (c) The Inter Project Authors – https://github.com/rsms/inter
+- JetBrains Mono (c) The JetBrains Mono Project Authors – https://github.com/JetBrains/JetBrainsMono
+Plné znění licence: https://openfontlicense.org/open-font-license-official-text/
