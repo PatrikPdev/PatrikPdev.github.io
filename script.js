@@ -898,8 +898,8 @@
       });
     });
 
-    // Blok se začne objevovat kousek před okrajem obrazovky, takže na ni vjede už viditelný
-    // a bez prázdného místa. Schová se, až z ní úplně odjede.
+    // Blok se začne objevovat, jakmile se jeho okraj ukáže na obrazovce (nahoře až pod lištou),
+    // takže animaci je vidět a nevznikne prázdné místo. Schová se, až z ní úplně odjede.
     // Podle strany, kam odjel, se pak vrací zespodu (scroll dolů) nebo shora (scroll nahoru).
     const revealObserver = new IntersectionObserver(
       function (entries) {
@@ -914,7 +914,7 @@
         });
         syncWires();
       },
-      { threshold: 0, rootMargin: "60px 0px 60px 0px" }
+      { threshold: 0, rootMargin: "-" + topbar.offsetHeight + "px 0px 0px 0px" }
     );
     revealItems.forEach(function (item) {
       revealObserver.observe(item);
