@@ -156,7 +156,7 @@
   canvas.prepend(wireSvg);
 
   const wires = WIRE_LIST.map(function (item) {
-    const vis = svgEl("path", { class: "wire" });
+    const vis = svgEl("path", { class: "wire", pathLength: "1" });
     const prog = svgEl("path", { class: "wire-prog", pathLength: "1" });
     const hit = svgEl("path", { class: "wire-hit" });
     const label = svgEl("g", { class: "wire-label" });
@@ -184,8 +184,36 @@
       prog: prog,
       hit: hit,
       label: label,
+      shown: false,
+      tipTimer: 0,
     };
   });
+
+  // Čára se vykreslí, až jsou vidět oba bloky, které spojuje, a zatáhne se, když jeden z nich odjede.
+  // Šipka na konci naskočí, až čára doběhne.
+  function endShown(id) {
+    const host = nodes.get(id).closest(".reveal");
+    return !host || !host.classList.contains("is-armed") || host.classList.contains("is-revealed");
+  }
+
+  function syncWires() {
+    wires.forEach(function (wire) {
+      const on = endShown(wire.from) && endShown(wire.to);
+      if (on === wire.shown) return;
+      wire.shown = on;
+      [wire.vis, wire.prog, wire.hit, wire.label].forEach(function (el) {
+        el.classList.toggle("is-shown", on);
+      });
+      clearTimeout(wire.tipTimer);
+      if (on) {
+        wire.tipTimer = setTimeout(function () {
+          wire.vis.classList.add("is-tip");
+        }, reducedMotion.matches ? 0 : 560);
+      } else {
+        wire.vis.classList.remove("is-tip");
+      }
+    });
+  }
 
   const NORMALS = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] };
 
@@ -855,7 +883,7 @@
 
   if ("IntersectionObserver" in window && !reducedMotion.matches) {
     // Co je vidět hned po načtení, zobrazíme bez animace; zbytek „natáhneme“ až pod obrazovkou.
-    // Spojnice se nikdy neschovávají, mizí a objevují se jen samotné bloky.
+    // Spojnice mezi bloky se pak postupně vykreslí (syncWires).
     revealItems.forEach(function (item) {
       const rect = item.getBoundingClientRect();
       const onScreen = rect.top < window.innerHeight && rect.bottom > 0;
@@ -885,6 +913,7 @@
             el.classList.remove("is-revealed");
           }
         });
+        syncWires();
       },
       { threshold: [0, 0.12, 0.25], rootMargin: "0px 0px -6% 0px" }
     );
@@ -892,6 +921,10 @@
       revealObserver.observe(item);
     });
   }
+  // první vykreslení až v dalším snímku, aby se čáry u bloků na obrazovce protáhly
+  requestAnimationFrame(function () {
+    requestAnimationFrame(syncWires);
+  });
 
   /* ---------- Dovednosti: přepínač Seznam / JSON ---------- */
 

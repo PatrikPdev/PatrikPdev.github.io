@@ -1040,7 +1040,13 @@ a:hover {
   stroke: #5c5c5c;
   stroke-width: 2;
   marker-end: url(#wire-arrow);
-  transition: stroke 0.25s var(--ease), opacity 0.2s var(--ease);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke 0.25s var(--ease), opacity 0.2s var(--ease), stroke-dashoffset 0.6s var(--ease);
+}
+
+.wire.is-shown {
+  stroke-dashoffset: 0;
 }
 
 .wire.is-success {
@@ -1065,13 +1071,23 @@ a:hover {
   pointer-events: stroke;
 }
 
+.wire-hit:not(.is-shown) {
+  pointer-events: none;
+}
+
+/* šipka až po dokreslení čáry */
+svg.wires .wire:not(.is-tip) {
+  marker-end: none;
+}
+
 .wire-label {
   opacity: 0;
   transition: opacity 0.25s var(--ease);
 }
 
-.wire-label.is-visible {
+.wire-label.is-visible.is-shown {
   opacity: 1;
+  transition-delay: 0.35s;
 }
 
 .wire-label rect {
@@ -1633,7 +1649,7 @@ a:hover {
   transition: stroke-dashoffset 0.6s var(--ease), opacity 0.2s var(--ease);
 }
 
-.wire-prog.is-drawn {
+.wire-prog.is-drawn.is-shown {
   stroke-dashoffset: 0;
 }
 
