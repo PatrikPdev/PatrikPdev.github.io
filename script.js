@@ -115,7 +115,8 @@
     ["g-vzdelani", "dovednosti"],
     ["dovednosti", "kontakt"],
     ["job-mcd", "job-kb"],
-    ["school", "lang-cs"],
+    ["school", "webdev"],
+    ["webdev", "lang-cs"],
     ["lang-cs", "lang-en"],
   ];
 
@@ -544,6 +545,31 @@
       output: {
         obor: "Elektrotechnika",
         maturita: 2026,
+      },
+    },
+    webdev: {
+      title: "Full stack development",
+      kind: "Vzdělání · samostudium",
+      input: [
+        ["Období", "průběžně"],
+        ["Forma", "Samostudium s AI jako učitelem"],
+      ],
+      params: [
+        {
+          label: "Co se učím",
+          list: [
+            "Učím se full stack vývoj, teď hlavně JavaScript a React, dál chci pokračovat k Node.js, Expressu a SQL.",
+            "Claude mi slouží jako učitel, ne jako generátor kódu: mám ho nastaveného tak, aby mi vysvětloval principy a nechal mě na řešení přijít.",
+            "Chci opravdu rozumět logice, na které stojí aplikace i automatizace: API, JSON a webhooky.",
+          ],
+        },
+      ],
+      output: {
+        forma: "samostudium",
+        učitel: "Claude (AI)",
+        právě_se_učím: ["JavaScript", "React"],
+        další_v_plánu: ["TypeScript", "Node.js", "Express", "SQL"],
+        stav: "průběžně se učím",
       },
     },
     "lang-cs": {
