@@ -208,7 +208,7 @@
       if (on) {
         wire.tipTimer = setTimeout(function () {
           wire.vis.classList.add("is-tip");
-        }, reducedMotion.matches ? 0 : 560);
+        }, reducedMotion.matches ? 0 : 400);
       } else {
         wire.vis.classList.remove("is-tip");
       }
@@ -353,7 +353,7 @@
       if (reducedMotion.matches) {
         done();
       } else {
-        setTimeout(done, 550);
+        setTimeout(done, 420);
       }
     });
   }
@@ -369,7 +369,7 @@
     el.classList.add("is-running");
     setTimeout(function () {
       succeed(id);
-    }, 400);
+    }, 300);
   }
 
   if (!("IntersectionObserver" in window) || reducedMotion.matches) {
@@ -385,7 +385,7 @@
           runObserver.unobserve(entry.target);
         });
       },
-      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.1 }
     );
     nodes.forEach(function (el) {
       runObserver.observe(el);
@@ -898,24 +898,23 @@
       });
     });
 
-    // Blok se objeví pokaždé, když vjede na obrazovku, a schová se, až z ní úplně odjede.
+    // Blok se začne objevovat kousek před okrajem obrazovky, takže na ni vjede už viditelný
+    // a bez prázdného místa. Schová se, až z ní úplně odjede.
     // Podle strany, kam odjel, se pak vrací zespodu (scroll dolů) nebo shora (scroll nahoru).
     const revealObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           const el = entry.target;
-          const visibleEnough =
-            entry.intersectionRatio >= 0.12 || entry.intersectionRect.height >= window.innerHeight * 0.25;
-          if (entry.isIntersecting && visibleEnough) {
+          if (entry.isIntersecting) {
             el.classList.add("is-revealed");
-          } else if (!entry.isIntersecting) {
+          } else {
             el.dataset.side = entry.boundingClientRect.top < 0 ? "above" : "below";
             el.classList.remove("is-revealed");
           }
         });
         syncWires();
       },
-      { threshold: [0, 0.12, 0.25], rootMargin: "0px 0px -6% 0px" }
+      { threshold: 0, rootMargin: "60px 0px 60px 0px" }
     );
     revealItems.forEach(function (item) {
       revealObserver.observe(item);

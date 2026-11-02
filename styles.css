@@ -1042,7 +1042,7 @@ a:hover {
   marker-end: url(#wire-arrow);
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke 0.25s var(--ease), opacity 0.2s var(--ease), stroke-dashoffset 0.6s var(--ease);
+  transition: stroke 0.25s var(--ease), opacity 0.2s var(--ease), stroke-dashoffset 0.4s var(--ease);
 }
 
 .wire.is-shown {
@@ -1087,7 +1087,7 @@ svg.wires .wire:not(.is-tip) {
 
 .wire-label.is-visible.is-shown {
   opacity: 1;
-  transition-delay: 0.35s;
+  transition-delay: 0.25s;
 }
 
 .wire-label rect {
@@ -1646,7 +1646,7 @@ svg.wires .wire:not(.is-tip) {
   stroke-width: 2;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 0.6s var(--ease), opacity 0.2s var(--ease);
+  transition: stroke-dashoffset 0.4s var(--ease), opacity 0.2s var(--ease);
 }
 
 .wire-prog.is-drawn.is-shown {
@@ -1882,14 +1882,14 @@ svg.wires .wire:not(.is-tip) {
 
 /* Bloky s handly se jen prolnou (čáry k nim tak drží na místě), posouvá se jejich obsah. */
 .reveal {
-  transition: opacity 0.45s var(--ease), border-color 0.2s var(--ease);
+  transition: opacity 0.35s var(--ease), border-color 0.2s var(--ease);
 }
 
 .reveal > .node-body,
 .reveal > .node-head,
 .tl-item.reveal .tl-head,
 .skill-cat.reveal {
-  transition: transform 0.45s var(--ease), opacity 0.45s var(--ease), border-color 0.2s var(--ease);
+  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease), border-color 0.2s var(--ease);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1900,21 +1900,21 @@ svg.wires .wire:not(.is-tip) {
   .reveal.is-armed:not(.is-revealed) > .node-body,
   .reveal.is-armed:not(.is-revealed) > .node-head,
   .tl-item.reveal.is-armed:not(.is-revealed) .tl-head {
-    transform: translateY(14px);
+    transform: translateY(10px);
   }
 
   .skill-cat.reveal.is-armed:not(.is-revealed) {
-    transform: translateY(14px) scale(0.98);
+    transform: translateY(10px) scale(0.98);
   }
 
   .reveal.is-armed[data-side="above"]:not(.is-revealed) > .node-body,
   .reveal.is-armed[data-side="above"]:not(.is-revealed) > .node-head,
   .tl-item.reveal.is-armed[data-side="above"]:not(.is-revealed) .tl-head {
-    transform: translateY(-14px);
+    transform: translateY(-10px);
   }
 
   .skill-cat.reveal.is-armed[data-side="above"]:not(.is-revealed) {
-    transform: translateY(-14px) scale(0.98);
+    transform: translateY(-10px) scale(0.98);
   }
 
   .project-node.reveal:nth-child(2),
