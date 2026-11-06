@@ -189,7 +189,7 @@
     };
   });
 
-  // Čára se vykreslí, až jsou vidět oba bloky, které spojuje, a zatáhne se, když jeden z nich odjede.
+  // Čára se jednou vykreslí, až jsou vidět oba bloky, které spojuje, a pak už zůstane.
   // Šipka na konci naskočí, až čára doběhne.
   function endShown(id) {
     const host = nodes.get(id).closest(".reveal");
@@ -198,20 +198,14 @@
 
   function syncWires() {
     wires.forEach(function (wire) {
-      const on = endShown(wire.from) && endShown(wire.to);
-      if (on === wire.shown) return;
-      wire.shown = on;
+      if (wire.shown || !endShown(wire.from) || !endShown(wire.to)) return;
+      wire.shown = true;
       [wire.vis, wire.prog, wire.hit, wire.label].forEach(function (el) {
-        el.classList.toggle("is-shown", on);
+        el.classList.add("is-shown");
       });
-      clearTimeout(wire.tipTimer);
-      if (on) {
-        wire.tipTimer = setTimeout(function () {
-          wire.vis.classList.add("is-tip");
-        }, reducedMotion.matches ? 0 : 400);
-      } else {
-        wire.vis.classList.remove("is-tip");
-      }
+      setTimeout(function () {
+        wire.vis.classList.add("is-tip");
+      }, reducedMotion.matches ? 0 : 400);
     });
   }
 
@@ -405,24 +399,27 @@
       params: [
         {
           label: "Co automatizace dělá",
-          text: "AI každý e-mail zařadí (jazyk, kategorie, číslo objednávky, nálada, urgentnost), zapíše ho do přehledové tabulky, připraví koncept odpovědi v jazyce zákazníka a u urgentních reklamací pošle upozornění do Slacku.",
+          text: "AI agent každý e-mail zařadí (jazyk, kategorie, nálada, urgentnost). Když v něm najde číslo objednávky, sám zavolá nástroj najdi_objednavku a v systému e-shopu dohledá stav, dopravce a sledovací číslo. Pak zapíše přehled do tabulky, připraví koncept odpovědi v jazyce zákazníka a u urgentních e-mailů pošle upozornění do Slacku.",
         },
         { label: "Nástroje", tools: ["n8n", "Claude API", "Gmail", "Google Sheets", "Slack"] },
         {
           label: "Pravidla a zabezpečení",
           list: [
             "Odpověď vždy kontroluje a odesílá člověk (human in the loop)",
+            "Interní poznámky ze systému zákazníkovi neprozradí a nic neslibuje",
             "Filtr spamu a automatické upozornění, když workflow spadne",
             "API klíče jen v trezoru n8n, Slack bot má jediné oprávnění (psát zprávy)",
           ],
         },
         {
           label: "Schéma workflow",
-          figure: { src: "assets/ai-email-asistent.webp", alt: "Schéma workflow AI asistenta na zákaznické e-maily" },
+          figure: { src: "assets/ai-email-agent.webp", alt: "Schéma workflow: AI agent s nástrojem najdi_objednavku" },
         },
       ],
       output: {
-        otestováno_e_mailů: 10,
+        otestováno_e_mailů: 14,
+        z_toho_s_agentem: 4,
+        agent_s_nástrojem: "najdi_objednavku",
         jazyky: ["cs", "sk", "de", "hu", "en", "ro"],
         odpověď_odesílá: "člověk (human in the loop)",
         filtr_spamu: true,
@@ -882,13 +879,12 @@
   const revealItems = Array.from(document.querySelectorAll(".reveal"));
 
   if ("IntersectionObserver" in window && !reducedMotion.matches) {
-    // Co je vidět hned po načtení, zobrazíme bez animace; zbytek „natáhneme“ až pod obrazovkou.
+    // Co je po načtení vidět nebo už nad obrazovkou, zobrazíme bez animace; animuje se jen to pod ní.
     // Spojnice mezi bloky se pak postupně vykreslí (syncWires).
     revealItems.forEach(function (item) {
-      const rect = item.getBoundingClientRect();
-      const onScreen = rect.top < window.innerHeight && rect.bottom > 0;
+      const reached = item.getBoundingClientRect().top < window.innerHeight;
       item.classList.add("is-armed");
-      if (onScreen) item.classList.add("is-revealed", "reveal-instant");
+      if (reached) item.classList.add("is-revealed", "reveal-instant");
     });
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
@@ -898,23 +894,17 @@
       });
     });
 
-    // Blok se začne objevovat, jakmile se jeho okraj ukáže na obrazovce (nahoře až pod lištou),
-    // takže animaci je vidět a nevznikne prázdné místo. Schová se, až z ní úplně odjede.
-    // Podle strany, kam odjel, se pak vrací zespodu (scroll dolů) nebo shora (scroll nahoru).
+    // Blok se objeví jednou, jakmile jeho okraj vjede na obrazovku, a pak už zůstane vidět.
     const revealObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
-          const el = entry.target;
-          if (entry.isIntersecting) {
-            el.classList.add("is-revealed");
-          } else {
-            el.dataset.side = entry.boundingClientRect.top < 0 ? "above" : "below";
-            el.classList.remove("is-revealed");
-          }
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-revealed");
+          revealObserver.unobserve(entry.target);
         });
         syncWires();
       },
-      { threshold: 0, rootMargin: "-" + topbar.offsetHeight + "px 0px 0px 0px" }
+      { threshold: 0 }
     );
     revealItems.forEach(function (item) {
       revealObserver.observe(item);
