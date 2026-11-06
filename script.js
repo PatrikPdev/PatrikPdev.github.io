@@ -184,30 +184,68 @@
       prog: prog,
       hit: hit,
       label: label,
-      shown: false,
-      tipTimer: 0,
     };
   });
 
-  // Čára se jednou vykreslí, až jsou vidět oba bloky, které spojuje, a pak už zůstane.
+  // Čára se jednou postupně vykreslí, když je její začátek dobře vidět a blok, ze kterého vede,
+  // už je na obrazovce. Čáry, které se spustí naráz, jdou po sobě shora dolů.
   // Šipka na konci naskočí, až čára doběhne.
+  const WIRE_DRAW_MS = 800;
+  let pendingWires = wires.slice();
+
   function endShown(id) {
     const host = nodes.get(id).closest(".reveal");
     return !host || !host.classList.contains("is-armed") || host.classList.contains("is-revealed");
   }
 
+  function showWire(wire) {
+    [wire.vis, wire.prog, wire.hit, wire.label].forEach(function (el) {
+      el.classList.add("is-shown");
+    });
+    setTimeout(function () {
+      wire.vis.classList.add("is-tip");
+    }, reducedMotion.matches ? 0 : WIRE_DRAW_MS);
+  }
+
   function syncWires() {
-    wires.forEach(function (wire) {
-      if (wire.shown || !endShown(wire.from) || !endShown(wire.to)) return;
-      wire.shown = true;
-      [wire.vis, wire.prog, wire.hit, wire.label].forEach(function (el) {
-        el.classList.add("is-shown");
-      });
-      setTimeout(function () {
-        wire.vis.classList.add("is-tip");
-      }, reducedMotion.matches ? 0 : 400);
+    if (!pendingWires.length) return;
+    const limit = window.innerHeight * 0.85;
+    const ready = [];
+    pendingWires = pendingWires.filter(function (wire) {
+      if (wire.vis.style.display === "none" || !endShown(wire.from)) return true;
+      const box = wire.vis.getBoundingClientRect();
+      if (box.top < limit && box.bottom > 0) {
+        ready.push({ wire: wire, top: box.top });
+        return false;
+      }
+      return true;
+    });
+    ready.sort(function (a, b) {
+      return a.top - b.top;
+    });
+    ready.forEach(function (item, i) {
+      if (reducedMotion.matches || i === 0) {
+        showWire(item.wire);
+      } else {
+        setTimeout(function () {
+          showWire(item.wire);
+        }, i * 160);
+      }
     });
   }
+
+  let wireFrame = 0;
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (wireFrame || !pendingWires.length) return;
+      wireFrame = requestAnimationFrame(function () {
+        wireFrame = 0;
+        syncWires();
+      });
+    },
+    { passive: true }
+  );
 
   const NORMALS = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] };
 
@@ -347,7 +385,7 @@
       if (reducedMotion.matches) {
         done();
       } else {
-        setTimeout(done, 420);
+        setTimeout(done, WIRE_DRAW_MS);
       }
     });
   }
