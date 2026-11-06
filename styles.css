@@ -1087,6 +1087,11 @@ svg.wires .wire:not(.is-tip) {
   marker-end: none;
 }
 
+/* čára mimo obrazovku se smaže okamžitě, aby se při návratu mohla nakreslit znovu */
+svg.wires .no-anim {
+  transition: none !important;
+}
+
 .wire-label {
   opacity: 0;
   transition: opacity 0.25s var(--ease);

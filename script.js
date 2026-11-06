@@ -187,11 +187,18 @@
     };
   });
 
-  // Čára se jednou postupně vykreslí, když je její začátek dobře vidět a blok, ze kterého vede,
-  // už je na obrazovce. Čáry, které se spustí naráz, jdou po sobě shora dolů.
+  // Čára se postupně vykreslí pokaždé, když se její střed dostane do prostřední části obrazovky,
+  // při scrollu dolů i nahoru. Když z obrazovky úplně odjede, potichu se smaže, aby se při návratu
+  // mohla nakreslit znovu. Čáry, které se spustí naráz, jdou po sobě shora dolů.
   // Šipka na konci naskočí, až čára doběhne.
   const WIRE_DRAW_MS = 800;
-  let pendingWires = wires.slice();
+  const wireParts = function (wire) {
+    return [wire.vis, wire.prog, wire.hit, wire.label];
+  };
+  wires.forEach(function (wire) {
+    wire.state = "off";
+    wire.timer = 0;
+  });
 
   function endShown(id) {
     const host = nodes.get(id).closest(".reveal");
@@ -199,26 +206,45 @@
   }
 
   function showWire(wire) {
-    [wire.vis, wire.prog, wire.hit, wire.label].forEach(function (el) {
+    wire.state = "on";
+    wireParts(wire).forEach(function (el) {
+      el.classList.remove("no-anim");
       el.classList.add("is-shown");
     });
-    setTimeout(function () {
+    wire.timer = setTimeout(function () {
       wire.vis.classList.add("is-tip");
     }, reducedMotion.matches ? 0 : WIRE_DRAW_MS);
   }
 
+  function hideWire(wire) {
+    clearTimeout(wire.timer);
+    wire.state = "off";
+    wire.vis.classList.remove("is-tip");
+    wireParts(wire).forEach(function (el) {
+      el.classList.add("no-anim");
+      el.classList.remove("is-shown");
+    });
+  }
+
+  // až po prvním vykreslení stránky, jinak by se čáry nahoře objevily rovnou hotové
+  let wiresReady = false;
+
   function syncWires() {
-    if (!pendingWires.length) return;
-    const limit = window.innerHeight * 0.85;
+    if (!wiresReady) return;
+    const vh = window.innerHeight;
     const ready = [];
-    pendingWires = pendingWires.filter(function (wire) {
-      if (wire.vis.style.display === "none" || !endShown(wire.from)) return true;
+    wires.forEach(function (wire) {
+      if (wire.vis.style.display === "none") return;
       const box = wire.vis.getBoundingClientRect();
-      if (box.top < limit && box.bottom > 0) {
-        ready.push({ wire: wire, top: box.top });
-        return false;
+      if (box.bottom < 0 || box.top > vh) {
+        if (wire.state !== "off") hideWire(wire);
+        return;
       }
-      return true;
+      const mid = (box.top + box.bottom) / 2;
+      if (wire.state === "off" && mid > vh * 0.15 && mid < vh * 0.82 && endShown(wire.from)) {
+        wire.state = "queued";
+        ready.push({ wire: wire, top: box.top });
+      }
     });
     ready.sort(function (a, b) {
       return a.top - b.top;
@@ -227,7 +253,7 @@
       if (reducedMotion.matches || i === 0) {
         showWire(item.wire);
       } else {
-        setTimeout(function () {
+        item.wire.timer = setTimeout(function () {
           showWire(item.wire);
         }, i * 160);
       }
@@ -238,7 +264,7 @@
   window.addEventListener(
     "scroll",
     function () {
-      if (wireFrame || !pendingWires.length) return;
+      if (wireFrame) return;
       wireFrame = requestAnimationFrame(function () {
         wireFrame = 0;
         syncWires();
@@ -343,6 +369,7 @@
       wire.label.style.display = narrow && wire.gutter ? "none" : "";
     });
     measureSections();
+    syncWires();
   }
 
   let drawFrame = 0;
@@ -950,7 +977,10 @@
   }
   // první vykreslení až v dalším snímku, aby se čáry u bloků na obrazovce protáhly
   requestAnimationFrame(function () {
-    requestAnimationFrame(syncWires);
+    requestAnimationFrame(function () {
+      wiresReady = true;
+      syncWires();
+    });
   });
 
   /* ---------- Dovednosti: přepínač Seznam / JSON ---------- */
