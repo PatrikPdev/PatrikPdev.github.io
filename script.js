@@ -399,24 +399,27 @@
       params: [
         {
           label: "Co automatizace dělá",
-          text: "AI každý e-mail zařadí (jazyk, kategorie, číslo objednávky, nálada, urgentnost), zapíše ho do přehledové tabulky, připraví koncept odpovědi v jazyce zákazníka a u urgentních reklamací pošle upozornění do Slacku.",
+          text: "AI agent každý e-mail zařadí (jazyk, kategorie, nálada, urgentnost). Když v něm najde číslo objednávky, sám zavolá nástroj najdi_objednavku a v systému e-shopu dohledá stav, dopravce a sledovací číslo. Pak zapíše přehled do tabulky, připraví koncept odpovědi v jazyce zákazníka a u urgentních e-mailů pošle upozornění do Slacku.",
         },
         { label: "Nástroje", tools: ["n8n", "Claude API", "Gmail", "Google Sheets", "Slack"] },
         {
           label: "Pravidla a zabezpečení",
           list: [
             "Odpověď vždy kontroluje a odesílá člověk (human in the loop)",
+            "Interní poznámky ze systému zákazníkovi neprozradí a nic neslibuje",
             "Filtr spamu a automatické upozornění, když workflow spadne",
             "API klíče jen v trezoru n8n, Slack bot má jediné oprávnění (psát zprávy)",
           ],
         },
         {
           label: "Schéma workflow",
-          figure: { src: "assets/ai-email-asistent.webp", alt: "Schéma workflow AI asistenta na zákaznické e-maily" },
+          figure: { src: "assets/ai-email-agent.webp", alt: "Schéma workflow: AI agent s nástrojem najdi_objednavku" },
         },
       ],
       output: {
-        otestováno_e_mailů: 10,
+        otestováno_e_mailů: 14,
+        z_toho_s_agentem: 4,
+        agent_s_nástrojem: "najdi_objednavku",
         jazyky: ["cs", "sk", "de", "hu", "en", "ro"],
         odpověď_odesílá: "člověk (human in the loop)",
         filtr_spamu: true,
