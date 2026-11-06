@@ -1092,6 +1092,12 @@ svg.wires .no-anim {
   transition: none !important;
 }
 
+/* při scrollu nahoru roste čára od konce */
+.wire.from-end:not(.is-shown),
+.wire-prog.from-end:not(.is-shown) {
+  stroke-dashoffset: -1;
+}
+
 .wire-label {
   opacity: 0;
   transition: opacity 0.25s var(--ease);

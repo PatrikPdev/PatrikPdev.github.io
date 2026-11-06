@@ -189,8 +189,9 @@
 
   // Čára se postupně vykreslí pokaždé, když se její střed dostane do prostřední části obrazovky,
   // při scrollu dolů i nahoru. Když z obrazovky úplně odjede, potichu se smaže, aby se při návratu
-  // mohla nakreslit znovu. Čáry, které se spustí naráz, jdou po sobě shora dolů.
-  // Šipka na konci naskočí, až čára doběhne.
+  // mohla nakreslit znovu. Při scrollu dolů roste shora dolů, při scrollu nahoru zespodu nahoru,
+  // a čáry, které se spustí naráz, jdou po sobě ve směru scrollu.
+  // Šipka na konci naskočí, až čára doběhne (při kreslení zespodu hned na začátku).
   const WIRE_DRAW_MS = 800;
   const wireParts = function (wire) {
     return [wire.vis, wire.prog, wire.hit, wire.label];
@@ -205,15 +206,25 @@
     return !host || !host.classList.contains("is-armed") || host.classList.contains("is-revealed");
   }
 
-  function showWire(wire) {
+  function showWire(wire, up) {
     wire.state = "on";
+    if (up) {
+      // skrytou čáru bez animace přesuneme na opačný konec, odkud pak poroste
+      wireParts(wire).forEach(function (el) {
+        el.classList.add("no-anim", "from-end");
+      });
+      getComputedStyle(wire.vis).strokeDashoffset;
+      wire.vis.classList.add("is-tip");
+    }
     wireParts(wire).forEach(function (el) {
       el.classList.remove("no-anim");
       el.classList.add("is-shown");
     });
-    wire.timer = setTimeout(function () {
-      wire.vis.classList.add("is-tip");
-    }, reducedMotion.matches ? 0 : WIRE_DRAW_MS);
+    if (!up) {
+      wire.timer = setTimeout(function () {
+        wire.vis.classList.add("is-tip");
+      }, reducedMotion.matches ? 0 : WIRE_DRAW_MS);
+    }
   }
 
   function hideWire(wire) {
@@ -222,16 +233,19 @@
     wire.vis.classList.remove("is-tip");
     wireParts(wire).forEach(function (el) {
       el.classList.add("no-anim");
-      el.classList.remove("is-shown");
+      el.classList.remove("is-shown", "from-end");
     });
   }
 
   // až po prvním vykreslení stránky, jinak by se čáry nahoře objevily rovnou hotové
   let wiresReady = false;
+  let lastScrollY = window.scrollY;
 
   function syncWires() {
     if (!wiresReady) return;
     const vh = window.innerHeight;
+    const up = window.scrollY < lastScrollY;
+    lastScrollY = window.scrollY;
     const ready = [];
     wires.forEach(function (wire) {
       if (wire.vis.style.display === "none") return;
@@ -243,18 +257,18 @@
       const mid = (box.top + box.bottom) / 2;
       if (wire.state === "off" && mid > vh * 0.15 && mid < vh * 0.82 && endShown(wire.from)) {
         wire.state = "queued";
-        ready.push({ wire: wire, top: box.top });
+        ready.push({ wire: wire, top: box.top, bottom: box.bottom });
       }
     });
     ready.sort(function (a, b) {
-      return a.top - b.top;
+      return up ? b.bottom - a.bottom : a.top - b.top;
     });
     ready.forEach(function (item, i) {
       if (reducedMotion.matches || i === 0) {
-        showWire(item.wire);
+        showWire(item.wire, up);
       } else {
         item.wire.timer = setTimeout(function () {
-          showWire(item.wire);
+          showWire(item.wire, up);
         }, i * 160);
       }
     });
